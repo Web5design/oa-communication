@@ -1,63 +1,22 @@
 <?php
+/**
+ * @file
+ * oa_communication.features.inc
+ */
 
 /**
- * Implementation of hook_ctools_plugin_api().
+ * Implements hook_ctools_plugin_api().
  */
 function oa_communication_ctools_plugin_api() {
   list($module, $api) = func_get_args();
   if ($module == "strongarm" && $api == "strongarm") {
-    return array("version" => 1);
+    return array("version" => "1");
   }
 }
 
 /**
- * Implementation of hook_imagecache_default_presets().
- */
-function oa_communication_imagecache_default_presets() {
-  $items = array(
-    'dashboard-communication-profile' => array(
-      'presetname' => 'dashboard-communication-profile',
-      'actions' => array(
-        '0' => array(
-          'weight' => '0',
-          'module' => 'imagecache',
-          'action' => 'imagecache_scale_and_crop',
-          'data' => array(
-            'width' => '50px',
-            'height' => '50px',
-          ),
-        ),
-      ),
-    ),
-  );
-  return $items;
-}
-
-/**
- * Implementation of hook_node_info().
- */
-function oa_communication_node_info() {
-  $items = array(
-    'communication' => array(
-      'name' => t('Communication'),
-      'module' => 'features',
-      'description' => '',
-      'has_title' => '1',
-      'title_label' => t('Title'),
-      'has_body' => '1',
-      'body_label' => t('Body'),
-      'min_word_count' => '0',
-      'help' => '',
-    ),
-  );
-  return $items;
-}
-
-/**
- * Implementation of hook_views_api().
+ * Implements hook_views_api().
  */
 function oa_communication_views_api() {
-  return array(
-    'api' => '3.0',
-  );
+  return array("version" => "3.0");
 }

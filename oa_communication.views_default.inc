@@ -1,12 +1,15 @@
 <?php
+/**
+ * @file
+ * oa_communication.views_default.inc
+ */
 
 /**
- * Implementation of hook_views_default_views().
+ * Implements hook_views_default_views().
  */
 function oa_communication_views_default_views() {
-  $views = array();
+  $export = array();
 
-  // Exported view: communications
   $view = new view;
   $view->name = 'communications';
   $view->description = 'A view to display communications between staff within the museum.';
@@ -23,6 +26,7 @@ function oa_communication_views_default_views() {
   $handler->display->display_options['access']['type'] = 'none';
   $handler->display->display_options['cache']['type'] = 'none';
   $handler->display->display_options['query']['type'] = 'views_query';
+  $handler->display->display_options['query']['options']['query_comment'] = FALSE;
   $handler->display->display_options['exposed_form']['type'] = 'basic';
   $handler->display->display_options['pager']['type'] = 'full';
   $handler->display->display_options['style_plugin'] = 'default';
@@ -32,14 +36,18 @@ function oa_communication_views_default_views() {
   $handler->display->display_options['footer']['area']['table'] = 'views';
   $handler->display->display_options['footer']['area']['field'] = 'area';
   $handler->display->display_options['footer']['area']['empty'] = FALSE;
-  /* Empty text: Global: Text area */
+  /* No results behavior: Global: Text area */
   $handler->display->display_options['empty']['area']['id'] = 'area';
   $handler->display->display_options['empty']['area']['table'] = 'views';
   $handler->display->display_options['empty']['area']['field'] = 'area';
   $handler->display->display_options['empty']['area']['empty'] = FALSE;
   $handler->display->display_options['empty']['area']['content'] = 'There is no new communication at this time.';
   $handler->display->display_options['empty']['area']['format'] = '1';
-  /* Field: Node: Title */
+  /* Relationship: Content: Author */
+  $handler->display->display_options['relationships']['uid']['id'] = 'uid';
+  $handler->display->display_options['relationships']['uid']['table'] = 'node';
+  $handler->display->display_options['relationships']['uid']['field'] = 'uid';
+  /* Field: Content: Title */
   $handler->display->display_options['fields']['title']['id'] = 'title';
   $handler->display->display_options['fields']['title']['table'] = 'node';
   $handler->display->display_options['fields']['title']['field'] = 'title';
@@ -58,10 +66,10 @@ function oa_communication_views_default_views() {
   $handler->display->display_options['fields']['title']['hide_empty'] = 0;
   $handler->display->display_options['fields']['title']['empty_zero'] = 0;
   $handler->display->display_options['fields']['title']['link_to_node'] = 1;
-  /* Field: Node: Body */
+  /* Field: Broken/missing handler */
   $handler->display->display_options['fields']['body']['id'] = 'body';
-  $handler->display->display_options['fields']['body']['table'] = 'node_revisions';
-  $handler->display->display_options['fields']['body']['field'] = 'body';
+  $handler->display->display_options['fields']['body']['table'] = 'field_revision_data';
+  $handler->display->display_options['fields']['body']['field'] = 'body-revision_id';
   $handler->display->display_options['fields']['body']['alter']['alter_text'] = 0;
   $handler->display->display_options['fields']['body']['alter']['make_link'] = 0;
   $handler->display->display_options['fields']['body']['alter']['absolute'] = 0;
@@ -80,12 +88,12 @@ function oa_communication_views_default_views() {
   $handler->display->display_options['fields']['picture']['id'] = 'picture';
   $handler->display->display_options['fields']['picture']['table'] = 'users';
   $handler->display->display_options['fields']['picture']['field'] = 'picture';
-  /* Filter: Node: Published */
+  /* Filter criterion: Content: Published */
   $handler->display->display_options['filters']['status']['id'] = 'status';
   $handler->display->display_options['filters']['status']['table'] = 'node';
   $handler->display->display_options['filters']['status']['field'] = 'status';
   $handler->display->display_options['filters']['status']['value'] = '1';
-  /* Filter: Node: Type */
+  /* Filter criterion: Content: Type */
   $handler->display->display_options['filters']['type']['id'] = 'type';
   $handler->display->display_options['filters']['type']['table'] = 'node';
   $handler->display->display_options['filters']['type']['field'] = 'type';
@@ -152,6 +160,7 @@ print l(t(\'Start new communication\'), \'node/add/communication\', array(\'attr
   $handler->display->display_options['fields']['picture']['id'] = 'picture';
   $handler->display->display_options['fields']['picture']['table'] = 'users';
   $handler->display->display_options['fields']['picture']['field'] = 'picture';
+  $handler->display->display_options['fields']['picture']['relationship'] = 'uid';
   $handler->display->display_options['fields']['picture']['label'] = '';
   $handler->display->display_options['fields']['picture']['alter']['alter_text'] = 0;
   $handler->display->display_options['fields']['picture']['alter']['make_link'] = 0;
@@ -171,8 +180,7 @@ print l(t(\'Start new communication\'), \'node/add/communication\', array(\'attr
   $handler->display->display_options['fields']['picture']['empty_zero'] = 0;
   $handler->display->display_options['fields']['picture']['hide_alter_empty'] = 0;
   $handler->display->display_options['fields']['picture']['link_photo_to_profile'] = 1;
-  $handler->display->display_options['fields']['picture']['imagecache_preset'] = 'dashboard-communication-profile';
-  /* Field: Node: Title */
+  /* Field: Content: Title */
   $handler->display->display_options['fields']['title']['id'] = 'title';
   $handler->display->display_options['fields']['title']['table'] = 'node';
   $handler->display->display_options['fields']['title']['field'] = 'title';
@@ -191,10 +199,10 @@ print l(t(\'Start new communication\'), \'node/add/communication\', array(\'attr
   $handler->display->display_options['fields']['title']['hide_empty'] = 0;
   $handler->display->display_options['fields']['title']['empty_zero'] = 0;
   $handler->display->display_options['fields']['title']['link_to_node'] = 1;
-  /* Field: Node: Body */
+  /* Field: Broken/missing handler */
   $handler->display->display_options['fields']['body']['id'] = 'body';
-  $handler->display->display_options['fields']['body']['table'] = 'node_revisions';
-  $handler->display->display_options['fields']['body']['field'] = 'body';
+  $handler->display->display_options['fields']['body']['table'] = 'field_revision_data';
+  $handler->display->display_options['fields']['body']['field'] = 'body-revision_id';
   $handler->display->display_options['fields']['body']['alter']['alter_text'] = 0;
   $handler->display->display_options['fields']['body']['alter']['make_link'] = 0;
   $handler->display->display_options['fields']['body']['alter']['absolute'] = 0;
@@ -209,8 +217,7 @@ print l(t(\'Start new communication\'), \'node/add/communication\', array(\'attr
   $handler->display->display_options['fields']['body']['element_default_classes'] = 1;
   $handler->display->display_options['fields']['body']['hide_empty'] = 0;
   $handler->display->display_options['fields']['body']['empty_zero'] = 0;
+  $export['communications'] = $view;
 
-  $views[$view->name] = $view;
-
-  return $views;
+  return $export;
 }
