@@ -21,7 +21,9 @@ function oa_communication_views_api() {
   return array("version" => "3.0");
 }
 
-
+/**
+ * Implements hook_node_info().
+ */
 function oa_objects_node_info() {
   $items = array(
     'communication' => array(
