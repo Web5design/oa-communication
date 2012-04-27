@@ -20,3 +20,18 @@ function oa_communication_ctools_plugin_api() {
 function oa_communication_views_api() {
   return array("version" => "3.0");
 }
+
+
+function oa_objects_node_info() {
+  $items = array(
+    'communication' => array(
+      'name' => t('Communication'),
+      'base' => 'node_content',
+      'description' => t('Provides a content type for communication.'),
+      'has_title' => '1',
+      'title_label' => t('Title'),
+      'help' => '',
+    ),
+  );
+  return $items;
+}

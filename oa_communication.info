@@ -13,6 +13,7 @@ features[ctools][] = strongarm:strongarm:1
 features[ctools][] = views:views_default:3.0
 features[features_api][] = api:1
 features[field][] = comment-comment_node_communication-comment_body
+features[node][] = "communication"
 features[variable][] = comment_anonymous_communication
 features[variable][] = comment_communication
 features[variable][] = comment_controls_communication
